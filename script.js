@@ -1,12 +1,11 @@
 function main() {
     let inputField = document.querySelector("input");
-    let outputDiv = document.querySelector("#output"); // Select output div
-    let abortController = new AbortController(); // Create a controller for fetch requests
+    let outputDiv = document.querySelector("#output");
+    let abortController = new AbortController();
 
     inputField.addEventListener("change", () => {
-        // Abort previous request
         abortController.abort();
-        abortController = new AbortController(); // Reset controller
+        abortController = new AbortController();
 
         console.log("Sending:", inputField.value);
         fetchData(inputField.value, abortController.signal, outputDiv);
@@ -20,12 +19,12 @@ function fetchData(query, signal, outputDiv) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ text: query }),
-        signal: signal, // Attach the abort signal
+        signal: signal,
     })
         .then(response => response.json())
         .then(data => {
             console.log("Response:", data);
-            outputDiv.textContent = data.text; // Write response to output div
+            outputDiv.textContent = data.text;
         })
         .catch(error => {
             if (error.name === "AbortError") {
